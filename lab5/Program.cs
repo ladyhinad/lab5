@@ -34,33 +34,19 @@
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-        // 1. Створення співробітників
-        var operatorIvan = new Operator();
-        var seniorMaria = new SeniorOperator();
-        var bossPetro = new DepartmentHead();
-
-        // 2. Побудова ланцюжка: Оператор -> Старший -> Начальник
-        operatorIvan.SetNext(seniorMaria).SetNext(bossPetro);
-
-        // 3. Формування вхідних дзвінків
-        var calls = new List<Call>
-        {
-            new Call("Олег", "До котрої ви працюєте?", Difficulty.Basic),
-            new Call("Ірина", "Хочу повернути товар, він бракований", Difficulty.Intermediate),
-            new Call("Максим", "Я хочу укласти партнерську угоду на мільйон", Difficulty.Advanced),
-            new Call("Анонім", "Чому у Всесвіті панує ентропія?", Difficulty.Critical) // Занадто складне
-        };
-
-        // 4. Обробка
         Console.WriteLine("=== РОБОТА CALL-ЦЕНТРУ ===\n");
+
+        // 1. Створюємо єдиний об'єкт кол-центру (він сам все налаштує всередині)
+        CallCenter callCenter = new CallCenter();
+
+        // 2. Просто кидаємо туди завдання
+        callCenter.ProcessCall("Олег", "До котрої ви працюєте?", Difficulty.Basic);
         
-        foreach (var call in calls)
-        {
-            Console.WriteLine($"-> Вхідний дзвінок від: {call.ClientName} (Рівень: {call.Difficulty})");
-            // Клієнт завжди звертається до першого в ланцюгу (до звичайного оператора)
-            operatorIvan.HandleCall(call);
-            Console.WriteLine(new string('-', 50));
-        }
+        callCenter.ProcessCall("Ірина", "Хочу повернути товар, він бракований", Difficulty.Intermediate);
+        
+        callCenter.ProcessCall("Максим", "Я хочу укласти партнерську угоду на мільйон", Difficulty.Advanced);
+        
+        callCenter.ProcessCall("Анонім", "Чому у Всесвіті панує ентропія?", Difficulty.Critical);
 
         Console.ReadKey();
     }
